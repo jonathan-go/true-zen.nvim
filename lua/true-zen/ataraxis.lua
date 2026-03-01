@@ -12,7 +12,7 @@ local w = vim.w
 local api = vim.api
 local padding = cnf.modes.ataraxis.padding
 local minimum_writing_area = cnf.modes.ataraxis.minimum_writing_area
-local CARDINAL_POINTS = { left = "width", right = "width", top = "height", bottom = "height" }
+local CARDINAL_POINTS = { left = "width", right = "width" }
 
 local base = colors.get_hl("Normal")["background"] or "NONE"
 
@@ -123,8 +123,8 @@ local function layout(action)
 
 		win.left = pad_win("leftabove vnew", { width = left_padding }, "wincmd l") -- left buffer
 		win.right = pad_win("vnew", { width = right_padding }, "wincmd h") -- right buffer
-		win.top = pad_win("leftabove new", { height = top_padding }, "wincmd j") -- top buffer
-		win.bottom = pad_win("rightbelow new", { height = bottom_padding }, "wincmd k") -- bottom buffer
+		-- win.top = pad_win("leftabove new", { height = top_padding }, "wincmd j") -- top buffer
+		-- win.bottom = pad_win("rightbelow new", { height = bottom_padding }, "wincmd k") -- bottom buffer
 
 		o.splitbelow, o.splitright = splitbelow, splitright
 	else -- resize
@@ -248,9 +248,9 @@ function M.off()
 	if fn.filereadable(fn.expand("%:p")) == 1 then
 		pcall(function () pcall(cmd("q")) end)
 	end
-    
+
 	require("true-zen.minimalist").off()
-	
+
     for k, v in pairs(original_opts) do
 		if k ~= "highlights" then
 			o[k] = v
